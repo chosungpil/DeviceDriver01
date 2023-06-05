@@ -13,5 +13,5 @@ protected:
     FlashMemoryDevice* m_hardware;
 
 private:
-    constexpr static int READ_DELAY = 5;
+    constexpr static int READ_DELAY = 200;
 };
