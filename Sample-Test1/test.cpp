@@ -22,7 +22,7 @@ TEST(TestCaseName, Read5TimesReadVerification) {
 	DeviceDriver deviceDriver(&mockFlashDevice);
 	deviceDriver.read(readAddress);
 }
-TEST(TestCaseName, Exception) {
+TEST(TestCaseName, ReadException) {
 	MockFlashMemoryDevice mockFlashDevice;
 	long readAddress = 0;
 	EXPECT_CALL(mockFlashDevice, read(readAddress))
@@ -34,4 +34,27 @@ TEST(TestCaseName, Exception) {
 
 	DeviceDriver deviceDriver(&mockFlashDevice);
 	EXPECT_THROW(deviceDriver.read(readAddress), std::exception);
+}
+TEST(TestCaseName, WriteException) {
+	MockFlashMemoryDevice mockFlashDevice;
+	long writeAddress = 0;
+	unsigned char writeValue = 0x21;
+	DeviceDriver deviceDriver(&mockFlashDevice);
+	EXPECT_THROW(deviceDriver.write(writeAddress, writeValue), std::exception);
+}
+TEST(TestCaseName, WriteReadCountCheck) {
+	MockFlashMemoryDevice mockFlashDevice;
+	
+	constexpr static int TEST_COUNT = 5;
+	EXPECT_CALL(mockFlashDevice, read(_))
+		.Times(TEST_COUNT)
+		.WillRepeatedly(Return(DeviceDriver::ERASE_STATE_VALUE));
+
+	long writeAddress = 0;
+	unsigned char writeValue = 0x21;
+	DeviceDriver deviceDriver(&mockFlashDevice);
+	for (int writeCount = 0; writeCount < TEST_COUNT; writeCount++)
+	{
+		deviceDriver.write(writeAddress, writeValue);
+	}
 }

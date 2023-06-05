@@ -8,6 +8,7 @@ public:
     int read(long address);
     void write(long address, int data);
     constexpr static int READ_COUNT = 5;
+    constexpr static int ERASE_STATE_VALUE = 0xFF;
 
 protected:
     FlashMemoryDevice* m_hardware;
