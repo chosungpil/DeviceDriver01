@@ -14,4 +14,5 @@ protected:
 
 private:
     constexpr static int READ_DELAY = 200;
+    constexpr static int ERASE_STATE_VALUE = 0xFF;
 };
