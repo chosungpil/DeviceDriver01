@@ -15,10 +15,9 @@ public:
 };
 TEST(TestCaseName, Read5TimesReadVerification) {
 	MockFlashMemoryDevice mockFlashDevice;
-	constexpr int READ_COUNT = 5;
 	long readAddress = 0;
 	EXPECT_CALL(mockFlashDevice, read(readAddress))
-		.Times(READ_COUNT);
+		.Times(DeviceDriver::READ_COUNT);
 
 	DeviceDriver deviceDriver(&mockFlashDevice);
 	deviceDriver.read(readAddress);
