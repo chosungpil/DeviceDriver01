@@ -22,3 +22,16 @@ TEST(TestCaseName, Read5TimesReadVerification) {
 	DeviceDriver deviceDriver(&mockFlashDevice);
 	deviceDriver.read(readAddress);
 }
+TEST(TestCaseName, Exception) {
+	MockFlashMemoryDevice mockFlashDevice;
+	long readAddress = 0;
+	EXPECT_CALL(mockFlashDevice, read(readAddress))
+		.WillOnce(Return(0x7))
+		.WillOnce(Return(0x7))
+		.WillOnce(Return(0x7))
+		.WillOnce(Return(0x7))
+		.WillOnce(Return(0x3));
+
+	DeviceDriver deviceDriver(&mockFlashDevice);
+	EXPECT_THROW(deviceDriver.read(readAddress), std::exception);
+}
